@@ -42,7 +42,24 @@ class App extends Component {
 };
   changeFilter=e=>{
 this.setState({filter:e.currentTarget.value})
-  }     
+
+
+  } 
+   componentDidUpdate(prevProps, prevState){
+console.log('app componentDidUpdate')
+
+console.log(prevState)
+console.log(this.state.contacts)
+if(this.state.contacts!==prevState.contacts){
+  console.log('contacts обновились')
+  localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+}}  
+componentDidMount(){
+  const contacts= localStorage.getItem('contacts')
+  const contactsParse=JSON.parse(contacts)
+  this.setState({contacts: contactsParse});
+}
+ 
       render() {
       const normalizedFilter = this.state.filter.toLowerCase();
       const visibleContacts = this.state.contacts.filter((contact) =>
